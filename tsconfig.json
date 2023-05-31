@@ -1,0 +1,14 @@
+{
+    "compilerOptions": {
+      "jsx": "react",
+      "esModuleInterop": true,
+      "typeRoots": ["./node_modules/@types", "./src/@types"],
+      "rootDirs": [".", "./build/@types"],
+      "strict": true,
+      "noUncheckedIndexedAccess": true,
+      "lib": ["es2020", "DOM"],
+      "target": "es2015",
+      "module": "commonjs"
+    }
+  }
+  
