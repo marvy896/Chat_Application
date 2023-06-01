@@ -5,30 +5,32 @@
   box-sizing: border-box;
 }
 body {
+  width: auto;
+  height: auto;
   font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
-  background: white;
+  background-color: rgb(3, 156, 250);
   font-weight: 18px;
   transition: background-color 0.3s ease-in-out, color 0.6s ease-in-out;
   justify-content: center;
   align-items: center;
   display: flex;
 }
-.headChat{
-    width: 950px;
-    background-color:rgb(4, 26, 34);
-    color: white;
-    border: 2px solid rgb(4, 26, 34);
-    display: flex;
-    flex-direction: row;
-    justify-items: center;
-    align-items: center;
-    gap: 0.5em;
+.headChat {
+  width: 950px;
+  background-color: rgb(9, 38, 82);
+  color: white;
+  border: 2px solid rgb(4, 26, 34);
+  display: flex;
+  flex-direction: row;
+  justify-items: center;
+  align-items: center;
+  gap: 0.5em;
 }
-.HomeImg{
-    width: 80px;
-    height: 80px;
-    border-radius: 50%;
-    border: 2px solid white;
+.HomeImg {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  border: 2px solid white;
 }
 .chatArea {
   display: flex;
@@ -40,7 +42,7 @@ body {
 }
 
 .chatUI {
-    margin-top: 180px;
+  margin-top: 180px;
   display: flex;
   flex-direction: column;
   width: 1020px;
@@ -51,6 +53,6 @@ body {
   border: 3px solid rgb(4, 26, 34);
   padding: 20px;
 }
-form{
-    width: 950px;
+form {
+  width: 950px;
 }

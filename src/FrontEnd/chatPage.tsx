@@ -1,25 +1,22 @@
-import React, { useEffect, useRef } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import io, { Socket } from "socket.io-client";
 import { Button, Form } from "react-bootstrap";
+/**@ts-ignore */
 import DP from "../img/dp.jpg";
 import SendIcon from "@mui/icons-material/Send";
 
 export default function ChatPage() {
-  const messagesRef = useRef<HTMLUListElement>(null);
-  const formRef = useRef<HTMLFormElement>(null);
-  const inputRef = useRef<HTMLInputElement>(null);
-  const socket = useRef<SocketIOClient.Socket | null>(null);
+  // const formRef = useRef<HTMLFormElement>(null);
+  const inputRef = useRef<HTMLTextAreaElement>(null);
+  const socket = useRef<Socket | null>(null);
+  const [items, setItems] = useState<Array<string>>([]);
 
   useEffect(() => {
     socket.current = io();
 
     const handleChatMessage = (msg: string) => {
-      const item = document.createElement("div");
-      item.textContent = msg;
-      if (messagesRef.current) {
-        messagesRef.current.appendChild(item);
-        window.scrollTo(0, document.body.scrollHeight);
-      }
+      setItems([...items, msg]);
+      window.scrollTo(0, document.body.scrollHeight);
     };
 
     if (socket.current) {
@@ -48,14 +45,14 @@ export default function ChatPage() {
         <h3>Marvel's Group Chat </h3>
       </div>
       <div className="chatArea">
-        <ul id="messages" ref={messagesRef}></ul>
+        <ul id="messages">
+          {" "}
+          {items.map((item, index) => (
+            <div key={index}>{item}</div>
+          ))}
+        </ul>
       </div>
-      <form
-        id="form"
-        onSubmit={handleSubmit}
-        ref={formRef}
-        className="form-group"
-      >
+      <form id="form" onSubmit={handleSubmit} className="form-group">
         <div className="input-group">
           <div className="input-group-prepend">
             <span className="input-group-text">Chat Here</span>
