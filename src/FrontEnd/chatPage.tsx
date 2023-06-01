@@ -18,14 +18,21 @@ export default function ChatPage() {
       setItems([...items, msg]);
       window.scrollTo(0, document.body.scrollHeight);
     };
+    
+    const handleChatHistory = (msg: string) => {
+      setItems(JSON.parse(msg))
+      window.scrollTo(0, document.body.scrollHeight);
+    }
 
     if (socket.current) {
       socket.current.on("chat message", handleChatMessage);
+      socket.current.on("chat history", handleChatHistory)
     }
-
+    
     return () => {
       if (socket.current) {
         socket.current.off("chat message", handleChatMessage);
+        socket.current.off("chat history", handleChatHistory)
       }
     };
   }, []);
