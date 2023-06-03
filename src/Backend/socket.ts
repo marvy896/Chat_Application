@@ -11,6 +11,17 @@ app.use(express.static("dist"));
 
 io.on("connection", (socket: Socket) => {
   socket.on("chat message", (msg: any) => {
+    let userNames = ["Ada", "Marvel", "Daniel", "Henry", "Kate"];
+    function hashCode(str: string) {
+      return str
+        .split("")
+        .reduce(
+          (prevHash: number, currVal: string) =>
+            ((prevHash << 5) - prevHash + currVal.charCodeAt(0)) | 0,
+          0
+        );
+    }
+    msg = userNames[Math.abs(hashCode(socket.id)) % 5] + " " + msg;
     io.emit("chat message", msg);
     chatHistory.push(msg);
   });
