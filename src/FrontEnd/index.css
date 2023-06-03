@@ -56,3 +56,7 @@ body {
 form {
   width: 950px;
 }
+ul{
+  width: 100%;
+  overflow-y: auto;
+}

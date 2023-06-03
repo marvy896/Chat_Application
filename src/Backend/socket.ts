@@ -9,19 +9,17 @@ const io = new Server(server);
 const chatHistory: string[] = [];
 app.use(express.static("dist"));
 
+let users: Record<string, string> = {};
+let userNames = ["Ada", "Marvel", "Daniel", "Henry", "Kate"];
+
 io.on("connection", (socket: Socket) => {
+  if (users[socket.id] == undefined) {
+    let used = userNames.pop()!;
+    users[socket.id] = used;
+    console.log(used);
+  }
   socket.on("chat message", (msg: any) => {
-    let userNames = ["Ada", "Marvel", "Daniel", "Henry", "Kate"];
-    function hashCode(str: string) {
-      return str
-        .split("")
-        .reduce(
-          (prevHash: number, currVal: string) =>
-            ((prevHash << 5) - prevHash + currVal.charCodeAt(0)) | 0,
-          0
-        );
-    }
-    msg = userNames[Math.abs(hashCode(socket.id)) % 5] + " " + msg;
+    msg =users[socket.id] + " " + msg;
     io.emit("chat message", msg);
     chatHistory.push(msg);
   });

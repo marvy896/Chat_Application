@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useLayoutEffect, useRef, useState } from "react";
 import io, { Socket } from "socket.io-client";
 import { Button, Form } from "react-bootstrap";
 /**@ts-ignore */
@@ -7,18 +7,24 @@ import SendIcon from "@mui/icons-material/Send";
 
 export default function ChatPage() {
   // const formRef = useRef<HTMLFormElement>(null);
+  const ulRef = useRef<HTMLUListElement>(null);
   const inputRef = useRef<HTMLTextAreaElement>(null);
   const socket = useRef<Socket | null>(null);
   const [items, setItems] = useState<Array<string>>([]);
 
+  useLayoutEffect(() => {
+    setTimeout(() => {
+      ulRef.current?.scrollTo(0, ulRef.current.scrollHeight);
+    }, 100);
+  }, [items]);
+
   const handleChatMessage = (msg: string) => {
     setItems((prevItems) => [...prevItems, msg]);
-    window.scrollTo(0, document.body.scrollHeight);
   };
 
   const handleChatHistory = (msg: string) => {
     setItems(JSON.parse(msg));
-    window.scrollTo(0, document.body.scrollHeight);
+    ulRef.current?.scrollTo(0, ulRef.current.scrollHeight);
   };
   useEffect(() => {
     socket.current = io();
