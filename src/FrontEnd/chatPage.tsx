@@ -11,28 +11,27 @@ export default function ChatPage() {
   const socket = useRef<Socket | null>(null);
   const [items, setItems] = useState<Array<string>>([]);
 
+  const handleChatMessage = (msg: string) => {
+    setItems((prevItems) => [...prevItems, msg]);
+    window.scrollTo(0, document.body.scrollHeight);
+  };
+
+  const handleChatHistory = (msg: string) => {
+    setItems(JSON.parse(msg));
+    window.scrollTo(0, document.body.scrollHeight);
+  };
   useEffect(() => {
     socket.current = io();
 
-    const handleChatMessage = (msg: string) => {
-      setItems([...items, msg]);
-      window.scrollTo(0, document.body.scrollHeight);
-    };
-    
-    const handleChatHistory = (msg: string) => {
-      setItems(JSON.parse(msg))
-      window.scrollTo(0, document.body.scrollHeight);
-    }
-
     if (socket.current) {
       socket.current.on("chat message", handleChatMessage);
-      socket.current.on("chat history", handleChatHistory)
+      socket.current.on("chat history", handleChatHistory);
     }
-    
+
     return () => {
       if (socket.current) {
         socket.current.off("chat message", handleChatMessage);
-        socket.current.off("chat history", handleChatHistory)
+        socket.current.off("chat history", handleChatHistory);
       }
     };
   }, []);
