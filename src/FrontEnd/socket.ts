@@ -1,9 +1,9 @@
-import {io} from "socket.io-client";
+// import {io} from "socket.io-client";
 
-const socket = io("ws://localhost:3000");
+// const socket = io("ws://localhost:3000");
 
-socket.on("hello", (arg: any) =>{
-    console.log(arg);
-})
+// socket.on("hello", (arg: any) =>{
+//     console.log(arg);
+// })
 
-socket.emit("hello", "world")
+// socket.emit("hello", "world")
