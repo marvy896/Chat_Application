@@ -4,7 +4,11 @@ import  App  from "./App";
 import './index.css'
 import "bootstrap/dist/css/bootstrap.min.css";
 import './socket'
+import { BrowserRouter } from "react-router-dom";
 
-const container = document.getElementById("root")!;
-const root = createRoot(container)
-root.render(<App />);
+const root = createRoot(document.getElementById("root") as HTMLDivElement);
+root.render(
+    <BrowserRouter>
+    <App />
+    </BrowserRouter>
+    )

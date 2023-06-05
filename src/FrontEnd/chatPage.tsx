@@ -4,13 +4,14 @@ import { Button, Form } from "react-bootstrap";
 /**@ts-ignore */
 import DP from "../img/dp.jpg";
 import SendIcon from "@mui/icons-material/Send";
+import { DisplayMessage } from "../utilis/interface";
 
 export default function ChatPage() {
   // const formRef = useRef<HTMLFormElement>(null);
   const ulRef = useRef<HTMLUListElement>(null);
   const inputRef = useRef<HTMLTextAreaElement>(null);
   const socket = useRef<Socket | null>(null);
-  const [items, setItems] = useState<Array<string>>([]);
+  const [items, setItems] = useState<Array<DisplayMessage>>([]);
 
   useLayoutEffect(() => {
     setTimeout(() => {
@@ -18,12 +19,12 @@ export default function ChatPage() {
     }, 100);
   }, [items]);
 
-  const handleChatMessage = (msg: string) => {
+  const handleChatMessage = (msg: DisplayMessage) => {
     setItems((prevItems) => [...prevItems, msg]);
   };
 
-  const handleChatHistory = (msg: string) => {
-    setItems(JSON.parse(msg));
+  const handleChatHistory = (msg: DisplayMessage[]) => {
+    setItems(msg);
     ulRef.current?.scrollTo(0, ulRef.current.scrollHeight);
   };
   useEffect(() => {
@@ -60,11 +61,13 @@ export default function ChatPage() {
         <ul id="messages">
           {" "}
           {items.map((item, index) => (
-            <div key={index}>{item}</div>
+            <div className="diplayMsg" key={index}>
+              <span className="username">{item.username}</span>  {item.message}
+            </div>
           ))}
         </ul>
       </div>
-      <form id="form" onSubmit={handleSubmit} className="form-group">
+      <Form id="form" onSubmit={handleSubmit} className="form-group">
         <div className="input-group">
           <div className="input-group-prepend">
             <span className="input-group-text">Chat Here</span>
@@ -80,7 +83,7 @@ export default function ChatPage() {
             <SendIcon />
           </Button>
         </div>
-      </form>
+      </Form>
     </div>
   );
 }

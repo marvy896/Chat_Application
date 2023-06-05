@@ -60,3 +60,15 @@ ul{
   width: 100%;
   overflow-y: auto;
 }
+.username{
+  padding: 3px;
+  font-weight: bolder;
+  width: auto;
+  height: auto;
+  background-color: aqua;
+  border: 2px solid black;
+  border-radius: 5px;
+}
+.diplayMsg{
+  padding: 10px;
+}
