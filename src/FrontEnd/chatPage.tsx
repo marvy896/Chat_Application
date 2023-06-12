@@ -61,7 +61,7 @@ export default function ChatPage() {
     <div className="chatUI">
       <div className="headChat">
         <img src={DP} alt="Image" className="HomeImg" />
-        <h3>Marvel's Group Chat </h3>
+        <h3>{urlRoomId} Group Chat </h3>
       </div>
       <div className="chatArea">
         <ul id="messages">
