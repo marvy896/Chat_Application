@@ -23,7 +23,7 @@ export default function UserForm() {
         if (data == "USER is not unique"){
           return  alert("Username already in use")
         }
-        navigate("/chatpage");
+        navigate("/index");
       });
   };
   return (

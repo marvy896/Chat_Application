@@ -8,11 +8,17 @@ const app = express();
 const server = http.createServer(app);
 app.use(express.json());
 const io = new Server(server);
-const chatHistory: DisplayMessage[] = [];
+
+let chatRooms: Record<string, DisplayMessage[]> = {
+  personal: [],
+  private: [],
+  business: [],
+  community: [],
+};
 app.use(express.static("dist"));
 
 let users: Record<string, string> = {};
-let userNames = ["Ada", "Marvel", "Daniel", "Henry", "Kate"];
+let userNames:string[] = [];
 
 app.post("/user", (req, res) => {
   let user = req.body.username;
@@ -24,7 +30,7 @@ app.post("/user", (req, res) => {
     }
   }
   console.log(user + " " + "is unique");
-  userNames.push(user)
+  userNames.push(user);
   return res.json("USER is unique");
 });
 
@@ -34,7 +40,7 @@ io.on("connection", (socket: Socket) => {
     users[socket.id] = used;
     console.log(used);
   }
-  socket.on("chat message", (msg: string) => {
+  socket.on("chat message", (msg: string, urlRoomId:string) => {
     // msg = users[socket.id] + " " + msg;
     if (users[socket.id] == undefined) {
       throw new Error("user not found");
@@ -43,10 +49,15 @@ io.on("connection", (socket: Socket) => {
       username: users[socket.id]!,
       message: msg,
     };
-    io.emit("chat message", display);
-    chatHistory.push(display);
+
+    io.emit("chat message", display, urlRoomId);
+    if (chatRooms[urlRoomId] !== undefined){
+      chatRooms[urlRoomId]!.push(display);
+    }
   });
-  socket.emit("chat history", chatHistory);
+  socket.on("currentRoom", (urlRoomId) => {
+    socket.emit("chat history", chatRooms[urlRoomId]);
+  });
   console.log("a user connected");
   socket.on("disconnect", () => {
     console.log("user disconnected");

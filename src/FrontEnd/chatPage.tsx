@@ -5,6 +5,7 @@ import { Button, Form } from "react-bootstrap";
 import DP from "../img/dp.jpg";
 import SendIcon from "@mui/icons-material/Send";
 import { DisplayMessage } from "../utilis/interface";
+import { useParams } from "react-router-dom";
 
 export default function ChatPage() {
   // const formRef = useRef<HTMLFormElement>(null);
@@ -19,20 +20,25 @@ export default function ChatPage() {
     }, 100);
   }, [items]);
 
-  const handleChatMessage = (msg: DisplayMessage) => {
-    setItems((prevItems) => [...prevItems, msg]);
+  let urlRoomId = useParams().id;
+  const handleChatMessage = (msg: DisplayMessage, UrlRoomId: string) => {
+    if (urlRoomId == UrlRoomId) {
+      setItems((prevItems) => [...prevItems, msg]);
+    }
   };
 
   const handleChatHistory = (msg: DisplayMessage[]) => {
     setItems(msg);
     ulRef.current?.scrollTo(0, ulRef.current.scrollHeight);
   };
+
   useEffect(() => {
     socket.current = io();
 
     if (socket.current) {
       socket.current.on("chat message", handleChatMessage);
       socket.current.on("chat history", handleChatHistory);
+      socket.current.emit("currentRoom", urlRoomId);
     }
 
     return () => {
@@ -41,12 +47,12 @@ export default function ChatPage() {
         socket.current.off("chat history", handleChatHistory);
       }
     };
-  }, []);
+  }, [urlRoomId]);
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (inputRef.current && inputRef.current.value && socket.current) {
-      socket.current.emit("chat message", inputRef.current.value);
+      socket.current.emit("chat message", inputRef.current.value, urlRoomId);
       inputRef.current.value = "";
     }
   };
@@ -62,7 +68,7 @@ export default function ChatPage() {
           {" "}
           {items.map((item, index) => (
             <div className="diplayMsg" key={index}>
-              <span className="username">{item.username}</span>  {item.message}
+              <span className="username">{item.username}</span> {item.message}
             </div>
           ))}
         </ul>
