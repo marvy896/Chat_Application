@@ -22,9 +22,11 @@ let userNames:string[] = [];
 
 app.post("/user", (req, res) => {
   let user = req.body.username;
-
+  if (user == ""){
+    return res.json("USER is not unique");
+  }
   for (const userName of Object.values(users)) {
-    if (user == userName && userName.length !== null) {
+    if (user == userName) {
       console.log(user + "" + "is not unique");
       return res.json("USER is not unique");
     }
