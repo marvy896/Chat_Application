@@ -21,7 +21,7 @@ export default function UserForm() {
       .then((data) => {
         console.log(data);
         if (data == "USER is not unique"){
-          return  alert("Username already in use")
+          return  alert("Please Select another Username")
         }
         navigate("/index");
       });
