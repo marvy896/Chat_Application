@@ -24,7 +24,7 @@ app.post("/user", (req, res) => {
   let user = req.body.username;
 
   for (const userName of Object.values(users)) {
-    if (user == userName) {
+    if (user == userName && userName.length !== null) {
       console.log(user + "" + "is not unique");
       return res.json("USER is not unique");
     }
