@@ -6,7 +6,8 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "frontend": "parcel src/FrontEnd/index.html --open",
-    "backend": "nodemon src/BackEnd/socket.ts"
+    "backend": "nodemon src/BackEnd/socket.ts",
+    "build": "parcel build index.html -d html"
   },
   "author": "",
   "license": "ISC",
